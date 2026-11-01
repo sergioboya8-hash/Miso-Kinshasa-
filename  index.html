@@ -1,0 +1,520 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Miso Kinshasa</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: en-tête collant, bandeau d'ouverture sombre avec une image de terrain, puis sections claires; galerie de chantier en défilement horizontal sur téléphone, grille 2x2 sur grand écran. */
+:root{
+  --bg:#F3F5F1; --surface:#FFFFFF; --fg:#14211D; --muted:#51625B; --line:#D3DBD5;
+  --accent:#0E4A44; --accent-fg:#FFFFFF; --signal:#F2B705; --ok:#1E7A4C; --warn:#A3340F;
+  --band:#0E4A44; --band-fg:#F4F8F5; --band-muted:#BBD5CD; --band-line:rgba(255,255,255,.22);
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1513; --surface:#12211E; --fg:#E7EEE9; --muted:#9DB0A8; --line:#25382F;
+    --accent:#5CC9B8; --accent-fg:#06201C; --ok:#5FD39A; --warn:#FF9A73;
+    --band:#0F2A27; --band-fg:#F0F6F2; --band-muted:#A9C4BC; --band-line:rgba(255,255,255,.16);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1513; --surface:#12211E; --fg:#E7EEE9; --muted:#9DB0A8; --line:#25382F;
+  --accent:#5CC9B8; --accent-fg:#06201C; --ok:#5FD39A; --warn:#FF9A73;
+  --band:#0F2A27; --band-fg:#F0F6F2; --band-muted:#A9C4BC; --band-line:rgba(255,255,255,.16);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--fg); font-family:var(--body); font-size:17px; line-height:1.55; margin:0}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top, 0px); z-index:30; background:var(--bg)}
+.wrap{
+  max-width:1080px; margin-inline:auto;
+  padding-left:max(18px, env(safe-area-inset-left, 0px));
+  padding-right:max(18px, env(safe-area-inset-right, 0px));
+}
+h1,h2,h3{font-family:var(--display); line-height:1.07; text-wrap:balance; margin:0; letter-spacing:-0.02em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--signal); outline-offset:2px; border-radius:4px}
+
+/* En-tête */
+.bar{position:sticky; top:env(safe-area-inset-top, 0px); z-index:31; background:var(--bg); border-bottom:1px solid var(--line)}
+.top{display:flex; align-items:center; justify-content:space-between; gap:12px; padding-block:12px}
+.brand{font-family:var(--display); font-weight:800; font-size:1.4rem; letter-spacing:-0.02em; text-decoration:none; display:flex; align-items:center; gap:10px}
+.brand i{width:30px; height:30px; border-radius:50%; background:var(--signal); display:grid; place-items:center; flex:none}
+.brand i svg{width:18px; height:18px}
+.brand small{font-family:var(--mono); font-weight:500; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px;
+  padding:12px 24px; border-radius:999px; border:2px solid var(--accent);
+  background:var(--accent); color:var(--accent-fg); font:600 1rem var(--body); text-decoration:none; cursor:pointer;
+}
+.btn.small{min-height:40px; padding:8px 18px; font-size:.92rem}
+.btn.signal{background:var(--signal); border-color:var(--signal); color:#1A1500}
+.btn.line{background:transparent; color:var(--band-fg); border-color:var(--band-line)}
+
+/* Bandeau d'ouverture */
+.band{background:var(--band); color:var(--band-fg)}
+.hero{display:grid; gap:34px; padding-block:34px 44px; align-items:center}
+.eyebrow{font-family:var(--mono); font-size:.76rem; letter-spacing:.1em; text-transform:uppercase; color:var(--band-muted); margin-bottom:14px}
+h1{font-size:clamp(2.3rem, 8vw, 4.3rem); font-weight:800}
+h1 u{text-decoration-color:var(--signal); text-decoration-thickness:.1em; text-underline-offset:.12em}
+.lead{font-size:1.15rem; color:var(--band-muted); margin-top:18px; max-width:32em}
+.cta-row{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.proofs{display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:26px; padding:0; list-style:none; font-family:var(--mono); font-size:.8rem; color:var(--band-fg)}
+.proofs li::before{content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--signal); margin-right:8px}
+
+/* Cadre photo */
+.shot{position:relative; border-radius:18px; overflow:hidden; background:#9bd0ee; min-width:0}
+.shot svg{display:block; width:100%; height:auto}
+.chip{
+  position:absolute; font-family:var(--mono); font-size:.72rem; line-height:1; padding:6px 9px; border-radius:6px;
+  background:rgba(10,18,16,.72); color:#fff; backdrop-filter:blur(2px);
+}
+.chip.tl{top:10px; left:10px} .chip.tr{top:10px; right:10px} .chip.bl{bottom:10px; left:10px} .chip.br{bottom:10px; right:10px}
+.chip .dot{display:inline-block; width:7px; height:7px; border-radius:50%; background:#ff4d3d; margin-right:6px}
+.hero .shot{box-shadow:0 20px 50px rgba(0,0,0,.35); border:3px solid rgba(255,255,255,.18)}
+
+/* Sections */
+section{padding-block:60px}
+section+section{border-top:1px solid var(--line)}
+.kicker{font-family:var(--mono); font-size:.76rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:12px}
+h2{font-size:clamp(1.8rem, 5.5vw, 2.8rem); font-weight:800}
+.sub{color:var(--muted); margin-top:12px; max-width:38em}
+
+/* Pour qui */
+.who{display:grid; gap:14px; margin-top:28px}
+.who div{padding:20px 22px; border-radius:16px; background:var(--surface); border:1px solid var(--line); min-width:0}
+.who strong{display:block; font-family:var(--display); font-size:1.15rem}
+.who p{color:var(--muted); margin-top:6px}
+
+/* Offres */
+.offers{display:grid; gap:16px; margin-top:32px}
+.offer{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:10px; min-width:0}
+.offer .ico{width:46px; height:46px; border-radius:12px; background:var(--band); color:var(--signal); display:grid; place-items:center}
+.offer .ico svg{width:26px; height:26px}
+.offer h3{font-size:1.35rem; font-weight:700; margin-top:6px}
+.offer .price{font-family:var(--mono); font-size:.93rem; color:var(--accent); font-weight:500}
+.offer ul{margin:6px 0 0; padding-left:1.1em; color:var(--muted)}
+.offer li{margin-top:4px}
+
+/* Galerie */
+.gallery{
+  display:grid; grid-auto-flow:column; grid-auto-columns:82%; gap:14px; margin-top:30px;
+  overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:10px; -webkit-overflow-scrolling:touch;
+}
+.gallery figure{margin:0; scroll-snap-align:start; min-width:0}
+.gallery figcaption{margin-top:10px; font-size:.95rem; color:var(--muted)}
+.gallery figcaption b{display:block; font-family:var(--display); font-size:1.08rem; color:var(--fg)}
+.gallery .shot{border:1px solid var(--line)}
+.note-ill{font-family:var(--mono); font-size:.8rem; color:var(--muted); margin-top:14px}
+
+/* Rapport */
+.report{
+  background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:22px; margin-top:34px;
+  font-family:var(--mono); font-size:.86rem; line-height:1.55; min-width:0;
+}
+.report h3{font-family:var(--body); font-size:1.12rem; font-weight:600; letter-spacing:0; margin-bottom:4px}
+.report .tag{display:inline-block; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--line); border-radius:6px; padding:2px 8px; color:var(--muted); margin-bottom:10px}
+.report dl{display:grid; grid-template-columns:auto 1fr; gap:6px 16px; margin:14px 0 0; padding-top:14px; border-top:1px dashed var(--line)}
+.report dt{color:var(--muted)}
+.report dd{margin:0; min-width:0; overflow-wrap:anywhere}
+.report .ok{color:var(--ok); font-weight:500}
+.report .warn{color:var(--warn); font-weight:500}
+
+/* Étapes */
+.steps{list-style:none; margin:32px 0 0; padding:0; counter-reset:s}
+.steps li{display:grid; grid-template-columns:48px 1fr; gap:16px; padding-block:20px; border-top:1px solid var(--line); counter-increment:s}
+.steps li::before{
+  content:counter(s); font-family:var(--display); font-weight:800; font-size:1.25rem;
+  width:42px; height:42px; border-radius:50%; background:var(--signal); color:#1A1500; display:grid; place-items:center;
+}
+.steps strong{display:block; font-family:var(--display); font-size:1.18rem; font-weight:700}
+.steps span{color:var(--muted)}
+
+/* Règles */
+.rules{display:grid; gap:14px; margin-top:30px}
+.rule{padding:20px 22px; background:var(--surface); border:1px solid var(--line); border-radius:16px; min-width:0}
+.rule strong{display:block; font-family:var(--display); font-size:1.12rem}
+.rule p{color:var(--muted); margin-top:6px}
+.tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:24px}
+.tags span{font-family:var(--mono); font-size:.82rem; border:1px solid var(--line); border-radius:999px; padding:5px 12px; color:var(--muted)}
+
+/* Paiements */
+.pay{display:grid; gap:22px; margin-top:28px}
+.paygroup{min-width:0}
+.paygroup h3{font-size:1.1rem; font-weight:700}
+.paygroup .tags{margin-top:12px}
+.paygroup .tags span{background:var(--surface); color:var(--fg); font-size:.88rem}
+
+/* Contact */
+.contact{background:var(--band); color:var(--band-fg); border-top:0}
+.contact .kicker,.contact .sub{color:var(--band-muted)}
+form{display:grid; gap:14px; margin-top:26px; max-width:560px}
+label{display:grid; gap:6px; font-weight:600; font-size:.95rem}
+input,select,textarea{
+  font:400 1rem var(--body); color:var(--fg); background:var(--surface);
+  border:1.5px solid var(--line); border-radius:10px; padding:12px 14px; width:100%; min-height:48px;
+}
+textarea{min-height:110px; resize:vertical}
+.hint{font-size:.88rem; color:var(--band-muted)}
+
+footer{padding-block:34px 110px; color:var(--muted); font-size:.9rem}
+footer p+p{margin-top:8px}
+
+/* Bouton WhatsApp flottant */
+.float{
+  position:fixed; z-index:40; right:max(16px, env(safe-area-inset-right, 0px)); bottom:calc(16px + env(safe-area-inset-bottom, 0px));
+  box-shadow:0 8px 24px rgba(0,0,0,.3);
+}
+
+@media (min-width:760px){
+  .offers,.who{grid-template-columns:repeat(3,1fr)}
+  .rules{grid-template-columns:1fr 1fr}
+  .gallery{grid-auto-flow:row; grid-template-columns:1fr 1fr; grid-auto-columns:auto; overflow:visible}
+  .report dl{grid-template-columns:auto 1fr auto 1fr; gap:8px 18px}
+}
+@media (min-width:900px){
+  .hero{grid-template-columns:1.05fr .95fr; gap:54px; padding-block:56px 72px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .btn{transition:transform .15s ease}
+  .btn:active{transform:scale(.98)}
+}
+</style>
+
+<div class="bar">
+  <div class="wrap top">
+    <a class="brand" href="#haut">
+      <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#1A1500" stroke-width="2.2" stroke-linecap="round"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.6" fill="#1A1500"/></svg></i>
+      Miso <small>Kinshasa</small>
+    </a>
+    <a class="btn small" href="#contact">Écrire à Sergio</a>
+  </div>
+</div>
+
+<main id="haut">
+  <div class="band">
+    <div class="wrap hero">
+      <div>
+        <p class="eyebrow">Pour ceux qui sont loin ou qui n'ont pas le temps</p>
+        <h1>Votre terrain, votre chantier, vos paiements. <u>Vérifiés sur place.</u></h1>
+        <p class="lead">Je m'appelle Sergio Boya et je vis à Kinshasa. Je suis vos yeux sur place : chaque mission vous revient avec une vidéo datée, une position GPS et un reçu.</p>
+        <div class="cta-row">
+          <a class="btn signal" href="#contact">Demander une mission</a>
+          <a class="btn line" href="#offres">Voir les services</a>
+        </div>
+        <ul class="proofs"><li>Vidéo datée</li><li>Position GPS</li><li>Reçu</li></ul>
+      </div>
+
+      <div class="shot" aria-label="Exemple : visite d'un terrain vide">
+        <svg viewBox="0 0 400 260" role="img" aria-label="Illustration d'un terrain vide délimité par quatre piquets, avec un repère GPS">
+          <defs><linearGradient id="sk1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7CC0EC"/><stop offset="1" stop-color="#E7F5FB"/></linearGradient></defs>
+          <rect width="400" height="260" fill="url(#sk1)"/>
+          <circle cx="330" cy="48" r="34" fill="#FFF3C4" opacity=".6"/><circle cx="330" cy="48" r="20" fill="#FFE07A"/>
+          <path d="M0 150 Q60 118 130 140 T262 133 T400 138 L400 260 L0 260Z" fill="#78AE82"/>
+          <path d="M0 166 L400 166 L400 260 L0 260Z" fill="#A94F36"/>
+          <ellipse cx="200" cy="215" rx="190" ry="34" fill="#BC6244" opacity=".7"/>
+          <g stroke="#2F7D46" stroke-width="5" stroke-linecap="round" fill="none"><path d="M40 170 Q44 150 45 122" stroke="#5A3E2B" stroke-width="4"/><path d="M45 122 Q22 104 6 120"/><path d="M45 122 Q30 98 14 98"/><path d="M45 122 Q60 98 78 104"/><path d="M45 122 Q66 112 82 126"/><path d="M45 122 Q46 100 50 90"/></g>
+          <g stroke="#2F7D46" stroke-width="5" stroke-linecap="round" fill="none"><path d="M366 168 Q362 146 360 112" stroke="#5A3E2B" stroke-width="4"/><path d="M360 112 Q338 96 322 112"/><path d="M360 112 Q344 90 330 92"/><path d="M360 112 Q376 92 392 98"/><path d="M360 112 Q382 106 396 122"/><path d="M360 112 Q360 94 364 84"/></g>
+          <polygon points="112,186 296,186 352,244 56,244" fill="#fff" fill-opacity=".07" stroke="#F5E6C8" stroke-width="2" stroke-dasharray="6 5"/>
+          <g fill="#fff"><rect x="109" y="172" width="5" height="16"/><rect x="293" y="172" width="5" height="16"/><rect x="349" y="228" width="6" height="18"/><rect x="53" y="228" width="6" height="18"/></g>
+          <g fill="#F2B705"><rect x="109" y="172" width="5" height="5"/><rect x="293" y="172" width="5" height="5"/><rect x="349" y="228" width="6" height="6"/><rect x="53" y="228" width="6" height="6"/></g>
+          <g stroke="#4E8F4B" stroke-width="2" stroke-linecap="round" fill="none"><path d="M90 205 l-3 -9 M90 205 l0 -11 M90 205 l3 -9"/><path d="M160 222 l-3 -9 M160 222 l0 -11 M160 222 l3 -9"/><path d="M250 208 l-3 -9 M250 208 l0 -11 M250 208 l3 -9"/><path d="M318 232 l-3 -9 M318 232 l0 -11 M318 232 l3 -9"/><path d="M20 196 l-3 -9 M20 196 l0 -11 M20 196 l3 -9"/><path d="M380 200 l-3 -9 M380 200 l0 -11 M380 200 l3 -9"/></g>
+          <ellipse cx="205" cy="214" rx="14" ry="4" fill="#000" opacity=".25"/>
+          <g transform="translate(0 46)"><path d="M205 128 c-9 0 -15 7 -15 15 c0 11 15 25 15 25 s15 -14 15 -25 c0 -8 -6 -15 -15 -15z" fill="#F2B705"/><circle cx="205" cy="143" r="5.5" fill="#14211D"/></g>
+        </svg>
+        <span class="chip tl"><span class="dot"></span>REC 00:42</span>
+        <span class="chip tr">18 oct. 2026 · 10:42</span>
+        <span class="chip bl">GPS -4.4419, 15.2663</span>
+        <span class="chip br">Exemple</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="pourqui">
+    <div class="wrap">
+      <p class="kicker">Pour qui</p>
+      <h2>Pour tous les Congolais qui ne peuvent pas être sur place</h2>
+      <div class="who">
+        <div><strong>Vous vivez à l'étranger</strong><p>Vous ne pouvez pas venir. Je vérifie à votre place et vous envoie les preuves.</p></div>
+        <div><strong>Vous vivez à Kinshasa</strong><p>Le travail, les embouteillages, les horaires : vous n'avez pas le temps de vous déplacer. J'y vais pour vous.</p></div>
+        <div><strong>Vous êtes dans une autre ville de la RDC</strong><p>Vous voulez acheter ou construire à Kinshasa sans y être. Je suis votre témoin sur place.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="offres">
+    <div class="wrap">
+      <p class="kicker">Services</p>
+      <h2>Trois façons de travailler ensemble</h2>
+      <p class="sub">Les prix ci-dessous sont indicatifs. Le tarif exact vous est donné avant le début de chaque mission.</p>
+      <div class="offers">
+        <article class="offer">
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg></div>
+          <h3>Visite de parcelle</h3>
+          <p class="price">À partir de 30 à 50 $</p>
+          <p>Je me rends sur le terrain avant que vous payiez.</p>
+          <ul>
+            <li>Vidéo complète et position GPS</li>
+            <li>Photos des papiers présentés</li>
+            <li>Rencontre avec les voisins sur demande</li>
+            <li>Notaire ou géomètre en option, facturé à part</li>
+          </ul>
+        </article>
+        <article class="offer">
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M10 21v-6h4v6"/></svg></div>
+          <h3>Suivi de chantier</h3>
+          <p class="price">À partir de 50 à 100 $ par mois</p>
+          <p>Vous voyez l'avancement sans être là.</p>
+          <ul>
+            <li>Rapport vidéo chaque semaine</li>
+            <li>Contrôle des factures de matériaux</li>
+            <li>Paiement des ouvriers avec preuve</li>
+          </ul>
+        </article>
+        <article class="offer">
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></div>
+          <h3>Paiements de confiance</h3>
+          <p class="price">5 à 10 % du montant</p>
+          <p>Frais scolaires, loyer, soins : payés et prouvés.</p>
+          <ul>
+            <li>Reçu et photo à chaque paiement</li>
+            <li>Confirmation par la personne qui reçoit</li>
+            <li>Paiement direct à l'école, au bailleur ou à la clinique</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="preuves">
+    <div class="wrap">
+      <p class="kicker">Ce que vous recevez</p>
+      <h2>Un chantier suivi, semaine après semaine</h2>
+      <p class="sub">Voici le type d'images que vous recevez sur WhatsApp. Un terrain vide d'abord, puis chaque étape de la construction.</p>
+
+      <div class="gallery" tabindex="0" aria-label="Exemples d'images de suivi">
+        <figure>
+          <div class="shot">
+            <svg viewBox="0 0 400 260" role="img" aria-label="Illustration d'un terrain vide avec quatre piquets">
+              <defs><linearGradient id="sk2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7CC0EC"/><stop offset="1" stop-color="#E7F5FB"/></linearGradient></defs>
+              <rect width="400" height="260" fill="url(#sk2)"/>
+              <circle cx="330" cy="48" r="20" fill="#FFE07A"/>
+              <path d="M0 150 Q60 118 130 140 T262 133 T400 138 L400 260 L0 260Z" fill="#78AE82"/>
+              <path d="M0 166 L400 166 L400 260 L0 260Z" fill="#A94F36"/>
+              <polygon points="112,186 296,186 352,244 56,244" fill="#fff" fill-opacity=".07" stroke="#F5E6C8" stroke-width="2" stroke-dasharray="6 5"/>
+              <g fill="#fff"><rect x="109" y="172" width="5" height="16"/><rect x="293" y="172" width="5" height="16"/><rect x="349" y="228" width="6" height="18"/><rect x="53" y="228" width="6" height="18"/></g>
+              <g fill="#F2B705"><rect x="109" y="172" width="5" height="5"/><rect x="293" y="172" width="5" height="5"/><rect x="349" y="228" width="6" height="6"/><rect x="53" y="228" width="6" height="6"/></g>
+              <g stroke="#4E8F4B" stroke-width="2" stroke-linecap="round" fill="none"><path d="M90 205 l-3 -9 M90 205 l0 -11 M90 205 l3 -9"/><path d="M160 222 l-3 -9 M160 222 l0 -11 M160 222 l3 -9"/><path d="M250 208 l-3 -9 M250 208 l0 -11 M250 208 l3 -9"/><path d="M318 232 l-3 -9 M318 232 l0 -11 M318 232 l3 -9"/></g>
+              <g stroke="#2F7D46" stroke-width="5" stroke-linecap="round" fill="none"><path d="M40 170 Q44 150 45 122" stroke="#5A3E2B" stroke-width="4"/><path d="M45 122 Q22 104 6 120"/><path d="M45 122 Q30 98 14 98"/><path d="M45 122 Q60 98 78 104"/><path d="M45 122 Q66 112 82 126"/></g>
+            </svg>
+            <span class="chip tl">Semaine 0</span><span class="chip br">Exemple</span>
+          </div>
+          <figcaption><b>Terrain vide</b>Les quatre limites sont marquées. Vous voyez la taille réelle et les alentours.</figcaption>
+        </figure>
+
+        <figure>
+          <div class="shot">
+            <svg viewBox="0 0 400 260" role="img" aria-label="Illustration de fondations creusées avec des fers à béton">
+              <defs><linearGradient id="sk3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7CC0EC"/><stop offset="1" stop-color="#E7F5FB"/></linearGradient></defs>
+              <rect width="400" height="260" fill="url(#sk3)"/>
+              <circle cx="60" cy="46" r="20" fill="#FFE07A"/>
+              <path d="M0 150 Q60 118 130 140 T262 133 T400 138 L400 260 L0 260Z" fill="#78AE82"/>
+              <path d="M0 166 L400 166 L400 260 L0 260Z" fill="#A94F36"/>
+              <polygon points="92,188 308,188 352,242 48,242" fill="#6E3322"/>
+              <polygon points="124,198 276,198 306,228 94,228" fill="#A94F36"/>
+              <g stroke="#2E2E2E" stroke-width="2.5" stroke-linecap="round"><path d="M66 238 v-24 M104 238 v-24 M142 238 v-24 M180 238 v-24 M218 238 v-24 M256 238 v-24 M294 238 v-24 M332 238 v-24"/><path d="M104 192 v-14 M140 192 v-14 M176 192 v-14 M212 192 v-14 M248 192 v-14 M284 192 v-14"/></g>
+              <path d="M326 252 Q360 214 398 252Z" fill="#E4C27A"/>
+              <g fill="#9AA09E" stroke="#6E7472" stroke-width="1"><rect x="8" y="238" width="22" height="12"/><rect x="32" y="238" width="22" height="12"/><rect x="20" y="226" width="22" height="12"/></g>
+            </svg>
+            <span class="chip tl">Semaine 2</span><span class="chip br">Exemple</span>
+          </div>
+          <figcaption><b>Fondations</b>Tranchées creusées, fers à béton en place. On contrôle avant que le béton soit coulé.</figcaption>
+        </figure>
+
+        <figure>
+          <div class="shot">
+            <svg viewBox="0 0 400 260" role="img" aria-label="Illustration de murs en parpaings en cours de montage avec un échafaudage en bois">
+              <defs>
+                <linearGradient id="sk4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7CC0EC"/><stop offset="1" stop-color="#E7F5FB"/></linearGradient>
+                <pattern id="bl" width="24" height="14" patternUnits="userSpaceOnUse"><rect width="24" height="14" fill="#C9CDCB"/><path d="M0 0.500H24M0 7.500H24M0 0V7M12 7V14" stroke="#8D9492" stroke-width="1" fill="none"/></pattern>
+              </defs>
+              <rect width="400" height="260" fill="url(#sk4)"/>
+              <circle cx="340" cy="44" r="20" fill="#FFE07A"/>
+              <path d="M0 150 Q60 118 130 140 T262 133 T400 138 L400 260 L0 260Z" fill="#78AE82"/>
+              <path d="M0 176 L400 176 L400 260 L0 260Z" fill="#A94F36"/>
+              <path d="M90 226 L90 106 L252 106 L252 136 L312 136 L312 226Z" fill="url(#bl)" stroke="#7E8683" stroke-width="1.500"/>
+              <rect x="130" y="156" width="36" height="70" fill="#2B2F30"/><rect x="226" y="150" width="44" height="34" fill="#2B2F30"/>
+              <g stroke="#9A6A3A" stroke-width="4" stroke-linecap="round"><path d="M76 232 V92 M326 232 V92 M76 168 H336 M76 124 H336 M76 232 L326 124"/></g>
+              <path d="M340 252 Q366 222 398 252Z" fill="#E4C27A"/>
+            </svg>
+            <span class="chip tl">Semaine 5</span><span class="chip br">Exemple</span>
+          </div>
+          <figcaption><b>Murs en parpaings</b>Les ouvertures de la porte et de la fenêtre sont déjà dessinées dans le mur.</figcaption>
+        </figure>
+
+        <figure>
+          <div class="shot">
+            <svg viewBox="0 0 400 260" role="img" aria-label="Illustration d'une maison terminée avec toit en tôle">
+              <defs>
+                <linearGradient id="sk5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7CC0EC"/><stop offset="1" stop-color="#E7F5FB"/></linearGradient>
+                <clipPath id="toit"><path d="M64 128 L98 76 L302 76 L336 128Z"/></clipPath>
+              </defs>
+              <rect width="400" height="260" fill="url(#sk5)"/>
+              <circle cx="60" cy="44" r="20" fill="#FFE07A"/>
+              <path d="M0 150 Q60 118 130 140 T262 133 T400 138 L400 260 L0 260Z" fill="#78AE82"/>
+              <path d="M0 184 L400 184 L400 260 L0 260Z" fill="#A94F36"/>
+              <rect x="88" y="128" width="224" height="96" fill="#F0E6D2"/>
+              <path d="M64 128 L98 76 L302 76 L336 128Z" fill="#8E9A9E"/>
+              <g clip-path="url(#toit)" stroke="#6F7A7E" stroke-width="2"><path d="M70 70 V130 M86 70 V130 M102 70 V130 M118 70 V130 M134 70 V130 M150 70 V130 M166 70 V130 M182 70 V130 M198 70 V130 M214 70 V130 M230 70 V130 M246 70 V130 M262 70 V130 M278 70 V130 M294 70 V130 M310 70 V130 M326 70 V130"/></g>
+              <rect x="136" y="162" width="36" height="62" fill="#6B4A2E"/><circle cx="165" cy="194" r="2.500" fill="#F2B705"/>
+              <rect x="226" y="152" width="48" height="36" fill="#9FD0E8" stroke="#6B4A2E" stroke-width="3"/><path d="M250 152 V188 M226 170 H274" stroke="#6B4A2E" stroke-width="2"/>
+              <g stroke="#2F7D46" stroke-width="5" stroke-linecap="round" fill="none"><path d="M360 226 Q364 200 362 168" stroke="#5A3E2B" stroke-width="4"/><path d="M362 168 Q340 152 326 168"/><path d="M362 168 Q348 146 334 148"/><path d="M362 168 Q378 148 394 154"/><path d="M362 168 Q384 162 398 178"/></g>
+              <g fill="#3C8F4B"><circle cx="100" cy="226" r="9"/><circle cx="116" cy="230" r="7"/><circle cx="290" cy="228" r="8"/></g>
+            </svg>
+            <span class="chip tl">Semaine 9</span><span class="chip br">Exemple</span>
+          </div>
+          <figcaption><b>Toiture posée</b>Tôles en place, porte et fenêtre installées. Vous voyez la maison finie.</figcaption>
+        </figure>
+      </div>
+      <p class="note-ill">Ces images sont des illustrations pour montrer le principe. Vos vraies photos et vidéos arrivent par WhatsApp.</p>
+
+      <article class="report" aria-label="Exemple de rapport">
+        <span class="tag">Exemple de rapport</span>
+        <h3>Visite de parcelle, Mont-Ngafula</h3>
+        <p>Rapport envoyé par WhatsApp le jour de la visite. Données fictives.</p>
+        <dl>
+          <dt>Date</dt><dd>18 oct. 2026, 10:42</dd>
+          <dt>GPS</dt><dd>-4.4419, 15.2663</dd>
+          <dt>Vidéo</dt><dd>2 min 40, tour complet du terrain</dd>
+          <dt>Papiers vus</dt><dd>Certificat d'enregistrement (copie photographiée)</dd>
+          <dt>Occupation</dt><dd><span class="ok">Terrain libre</span></dd>
+          <dt>À faire</dt><dd><span class="warn">Faire vérifier le certificat par un notaire avant tout paiement</span></dd>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+  <section id="deroule">
+    <div class="wrap">
+      <p class="kicker">Déroulement</p>
+      <h2>De votre message à la preuve</h2>
+      <ol class="steps">
+        <li><div><strong>Vous décrivez le besoin</strong><span>Commune, adresse ou repère, ce que vous voulez vérifier.</span></div></li>
+        <li><div><strong>Nous fixons le prix</strong><span>Vous recevez le tarif écrit avant que je me déplace.</span></div></li>
+        <li><div><strong>Je me rends sur place</strong><span>Vidéo, GPS, photos, et les questions que vous m'avez données.</span></div></li>
+        <li><div><strong>Vous recevez le rapport</strong><span>Le même jour quand c'est possible, par WhatsApp.</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="regles">
+    <div class="wrap">
+      <p class="kicker">Mes règles</p>
+      <h2>Ce que je ne fais jamais</h2>
+      <div class="rules">
+        <div class="rule"><strong>Je ne garde pas votre argent</strong><p>Quand c'est possible, vous payez directement l'ouvrier, l'école ou le fournisseur. Rien ne passe par ma poche.</p></div>
+        <div class="rule"><strong>Pas de mission sans preuve</strong><p>Pas de vidéo datée ni de reçu, pas de mission facturée.</p></div>
+        <div class="rule"><strong>Je ne tranche pas les litiges de terrain</strong><p>Si deux personnes réclament la même parcelle, je vous le dis et je vous oriente vers un notaire ou un avocat.</p></div>
+        <div class="rule"><strong>Je ne fais pas de politique</strong><p>Je vérifie des faits : un terrain, un chantier, un paiement.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="paiements">
+    <div class="wrap">
+      <p class="kicker">Paiements</p>
+      <h2>Envoyez l'argent par le moyen qui vous arrange</h2>
+      <p class="sub">Voici les moyens les plus utilisés, que vous payiez depuis l'étranger ou depuis la RDC. Selon votre pays d'envoi, tous ne sont pas disponibles. Écrivez-moi et je confirme celui qui marche pour vous avant le début de la mission.</p>
+      <div class="pay">
+        <div class="paygroup">
+          <h3>Transferts d'argent</h3>
+          <div class="tags"><span>Western Union</span><span>MoneyGram</span><span>Ria</span><span>WorldRemit</span><span>Remitly</span></div>
+        </div>
+        <div class="paygroup">
+          <h3>Banques</h3>
+          <div class="tags"><span>Equity BCDC</span><span>UBA</span><span>Rawbank</span><span>Ecobank</span><span>Access Bank</span><span>TMB</span><span>Virement bancaire</span></div>
+        </div>
+        <div class="paygroup">
+          <h3>Mobile money</h3>
+          <div class="tags"><span>M-Pesa</span><span>Airtel Money</span><span>Orange Money</span></div>
+        </div>
+      </div>
+      <p class="note-ill">Dans tous les cas, vous gardez la preuve de l'envoi, et je vous envoie le reçu de ce qui a été payé.</p>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <p class="kicker">Contact</p>
+      <h2>Parlez-moi de votre besoin</h2>
+      <p class="sub">Remplissez ce court formulaire. Il prépare votre message, puis il s'ouvre dans WhatsApp pour que vous l'envoyiez vous-même.</p>
+      <form id="f" autocomplete="on">
+        <label for="nom">Votre nom
+          <input id="nom" name="nom" type="text" placeholder="Ex. Christelle M.">
+        </label>
+        <label for="pays">Où vivez-vous ?
+          <input id="pays" name="pays" type="text" placeholder="Ex. Belgique, Kinshasa, Lubumbashi">
+        </label>
+        <label for="service">Service souhaité
+          <select id="service" name="service">
+            <option>Visite de parcelle</option>
+            <option>Suivi de chantier</option>
+            <option>Paiement de confiance</option>
+            <option>Autre besoin</option>
+          </select>
+        </label>
+        <label for="msg">Commune et détails
+          <textarea id="msg" name="msg" placeholder="Ex. Parcelle à Mont-Ngafula, le vendeur me demande un acompte."></textarea>
+        </label>
+        <a class="btn signal" id="wa" href="#contact" target="_blank" rel="noopener">Ouvrir dans WhatsApp</a>
+        <p class="hint">Avant d'envoyer de l'argent à qui que ce soit, demandez toujours une preuve écrite.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Miso Kinshasa, service tenu par Sergio Boya. En lingala, <i>miso</i> veut dire « les yeux ».</p>
+    <p>Les prix sont indicatifs et peuvent varier selon la commune et la mission.</p>
+  </div>
+</footer>
+
+<a class="btn signal float" id="wa2" href="#contact" target="_blank" rel="noopener">WhatsApp</a>
+
+<script>
+/* Numéro WhatsApp de Sergio, au format international sans + ni espaces. */
+var NUMERO = "243999325391";
+
+(function(){
+  var f = document.getElementById("f");
+  var wa = document.getElementById("wa");
+  var wa2 = document.getElementById("wa2");
+  function lien(t){ return "https://wa.me/" + NUMERO + "?text=" + encodeURIComponent(t); }
+  wa2.href = lien("Bonjour Sergio, je vous écris depuis votre site Miso Kinshasa.");
+  function maj(){
+    var nom = document.getElementById("nom").value.trim();
+    var pays = document.getElementById("pays").value.trim();
+    var service = document.getElementById("service").value;
+    var msg = document.getElementById("msg").value.trim();
+    var t = "Bonjour Sergio, ";
+    t += nom ? ("je m'appelle " + nom) : "je vous écris depuis votre site";
+    t += ". ";
+    if (pays) t += "Lieu où je vis : " + pays + ". ";
+    t += "Service souhaité : " + service + ".";
+    if (msg) t += " Détails : " + msg;
+    t = t.replace(/\s+/g, " ").replace(/ \./g, ".");
+    wa.href = lien(t);
+  }
+  f.addEventListener("input", maj);
+  f.addEventListener("change", maj);
+  f.addEventListener("submit", function(e){ e.preventDefault(); });
+  maj();
+})();
+</script>
+
+</body></html>
